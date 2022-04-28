@@ -17,7 +17,6 @@ const createRepairs = async (req, res) => {
   try {
     const { date, userId } = req.body;
 
-    const newUser = await Repair.create({ date, userId });
     const users = await User.findAll({
       where: { id: userId, status: 'available' },
     });
@@ -27,13 +26,12 @@ const createRepairs = async (req, res) => {
         status: 'error',
         message: 'Use not found given that userId',
       });
-    }else{
-        res.status(201).json({
-          newUser,
-          users
+    } else {
+      const newUser = await Repair.create({ date, userId });
+      res.status(201).json({
+        newUser,
       });
     }
-
   } catch (error) {
     console.log(error);
   }

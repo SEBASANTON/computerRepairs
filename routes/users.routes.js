@@ -1,26 +1,23 @@
 const express = require('express');
 
-const {userExists} = require('../middlewares/users.middlewares')
+const { userExists } = require('../middlewares/users.middlewares');
 
 const {
-    getAllUsers,
-    createUser,
-    getUserById,
-    updateUser,
-    deleteUser
-} = require('../controllers/users.controller')
+  getAllUsers,
+  createUser,
+  getUserById,
+  updateUser,
+  deleteUser,
+} = require('../controllers/users.controller');
 
 const router = express.Router();
 
+router.route('/').get(getAllUsers).post(createUser);
 
-router.route('/')
-    .get(getAllUsers)
-    .post(createUser)
+router
+  .route('/:id')
+  .get(userExists, getUserById)
+  .patch(userExists, updateUser)
+  .delete(userExists, deleteUser);
 
-router.route('/:id')
-    .get(userExists, getUserById)
-    .patch(userExists, updateUser)
-    .delete(userExists, deleteUser)
-    
-
-module.exports = { usersRouter: router}
+module.exports = { usersRouter: router };
